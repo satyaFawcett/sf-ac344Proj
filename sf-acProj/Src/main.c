@@ -63,13 +63,15 @@ const struct song ironman = {
 const struct note bass = {0, 2};
 
 volatile int button_pressed = 0;
+volatile int timeout = 0;
+volatile int beat = 0;
 
 int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	System_Clock_Init();
-	SysTick_Init(80);
+//	System_Clock_Init();
+	SysTick_Init(4);
 	LED_init();
 	button_init();
 

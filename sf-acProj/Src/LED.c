@@ -6,6 +6,9 @@
  */
 
 #include "stm32l476xx.h"
+#include<stdio.h>
+#include<stdint.h>
+#include "sf344fun.h"
 
 void LED_init(){
 	/*Description:
