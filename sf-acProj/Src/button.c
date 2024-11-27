@@ -53,7 +53,7 @@ void EXTI15_10_IRQHandler(void) {
 	}
 	//button connected to PC10 pressed
 	if((EXTI->PR1 & EXTI_PR1_PIF10) != 0){
-		delay(10000); //debounce
+//		delay(10000); //debounce
 		button_pressed = 1;
 		EXTI->PR1 = EXTI_PR1_PIF10; //clear pending flag
 	}

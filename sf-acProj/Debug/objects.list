@@ -7,4 +7,5 @@
 "./Src/sys_init.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
+"./Src/timers.o"
 "./Startup/startup_stm32l476rgtx.o"
