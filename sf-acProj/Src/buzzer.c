@@ -11,7 +11,7 @@
 #include "delay.h"
 
 //constants
-const unsigned int freq[] = {80, 277, 294, 311, 330, 349, 370, 392, 415, 440, 466, 494, 523, 554, 587};
+const unsigned int freq[] = {100, 277, 294, 311, 330, 349, 370, 392, 415, 440, 466, 494, 523, 554, 587};
 #define BUZZER_PIN 10;
 
 void buzzer_init(){
@@ -30,7 +30,7 @@ void playnote(struct note n) {
 		GPIOA->ODR ^= 1 << BUZZER_PIN; // Toggle buzzer
 		delay(500000 / freq[n.notenum]);
 	}
-	delay(0.5 * 125000); // Short delay between notes
+//	delay(0.5 * 125000); // Short delay between notes
 }
 
 void playsong(const struct song *s) {

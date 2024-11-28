@@ -30,8 +30,8 @@ void TIM4_Init(void){
 	TIM4->CR1 &= ~TIM_CR1_DIR;					// Up-counting mode (default)
 
 	// Set the PSC and ARR fields to achieve a 1kHz output
-	TIM4->PSC = 79000;		// Pre-scaler to divide 16 MHz clock to 1 kHz
-	TIM4->ARR = 2999;		// Auto-reload for 3-second interrupt
+	TIM4->PSC = 79999;		// Pre-scaler to divide 16 MHz clock to 1 kHz
+	TIM4->ARR = 18000;		// Auto-reload for 3-second interrupt
 
 	TIM4->CR2 &= ~TIM_CR2_MMS;			// No master mode output
 
@@ -40,19 +40,19 @@ void TIM4_Init(void){
 
 	TIM4->DIER |= TIM_DIER_UIE;			// Enable update interrupt
 
-	NVIC_SetPriority(TIM4_IRQn, 1);			// Set interrupt priority
+	NVIC_SetPriority(TIM4_IRQn, 2);			// Set interrupt priority
 	NVIC_EnableIRQ(TIM4_IRQn);				// Enable TIM4 interrupt in NVIC
 
 	// Enable the timer
-	TIM4->CR1 |= TIM_CR1_CEN;
+	TIM4->CR1 &= ~TIM_CR1_CEN;
 }
 
 // Interrupt handler code for the counter reaching 3 seconds
 void TIM4_IRQHandler(void){
 	if (TIM4->SR & TIM_SR_UIF){		// Check if update interrupt flag
-		TIM4->SR &= ~TIM_SR_UIF;	// Clear the interrupt flag
 		TIM4->CR1 &= ~TIM_CR1_CEN;	// Disable the timer
 		timeout = 1;				// Set flag for timer disabled
+		TIM4->SR &= ~TIM_SR_UIF;	// Clear the interrupt flag
 	}
 }
 
@@ -64,7 +64,7 @@ void TIM3_Init(void){
 	TIM3->CR1 &= ~TIM_CR1_DIR;					// Up-counting mode (default)
 
 	// Set the PSC and ARR fields to achieve a 1kHz output
-	TIM3->PSC = 79000;		// Pre-scaler to divide 16 MHz clock to 1 kHz
+	TIM3->PSC = 79999;		// Pre-scaler to divide 16 MHz clock to 1 kHz
 	TIM3->ARR = 2999;		// Auto-reload for 3-second interrupt
 
 	TIM3->CR2 &= ~TIM_CR2_MMS;			// No master mode output
@@ -74,7 +74,7 @@ void TIM3_Init(void){
 
 	TIM3->DIER |= TIM_DIER_UIE;			// Enable update interrupt
 
-	NVIC_SetPriority(TIM3_IRQn, 1);			// Set interrupt priority
+	NVIC_SetPriority(TIM3_IRQn, 3);			// Set interrupt priority
 	NVIC_EnableIRQ(TIM3_IRQn);				// Enable TIM3 interrupt in NVIC
 
 	// Enable the timer
@@ -90,8 +90,8 @@ void arr_set(int s){
 // Interrupt handler code to set beat = 1 on overflow
 void TIM3_IRQHandler(void){
 	if (TIM3->SR & TIM_SR_UIF){		// Check if update interrupt flag
-		TIM3->SR &= ~TIM_SR_UIF;	// Clear the interrupt flag
 		beat = 1;
+		TIM3->SR &= ~TIM_SR_UIF;	// Clear the interrupt flag
 		// Set ARR to get_counterVal here? or assign in timer init?
 	}
 }

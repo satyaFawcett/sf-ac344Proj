@@ -43,12 +43,12 @@
 
 /* USER CODE END FP */
 
-
+#define offset 312
 
 const struct note bass = {0, 2};
 
 volatile int button_pressed = 0;
-volatile int timeout = 0;
+volatile int timeout = 1;
 volatile int beat = 0;
 int last_count = 0;
 
@@ -69,14 +69,25 @@ int main(void)
   while (1){
 	  //execute if button pressed
 	  if(button_pressed){
-		  last_count = get_counterVal();
-		  reset_counterVal();
-		  arr_set(last_count);
-		  //play note and flash led
-//		  toggle_LED();
-//		  playnote(bass);
-//		  toggle_LED();
-//		  button_pressed = 0;
+		  //execute if timeout triggered
+		  if(timeout){
+			  TIM4->CR1 |= TIM_CR1_CEN;	//Enable the timer
+			  TIM4->CNT = 0;
+			  timeout = 0;
+		  }
+		  else{
+			  TIM3->CR1 &= ~TIM_CR1_CEN;
+			  TIM3->ARR = TIM4->CNT - offset;
+			  TIM3->CR1 |= TIM_CR1_CEN;
+
+
+			  //play note and flash led
+//	  		  toggle_LED();
+//	  		  playnote(bass);
+//	  		  toggle_LED();
+		  }
+		  TIM3->CNT = 0;
+		  button_pressed = 0;
 	  }
 
 	  //execute if TIM3 overflows
@@ -88,10 +99,6 @@ int main(void)
 		  beat = 0;
 	  }
 
-	  //execute if timeout triggered
-	  if(timeout){
-
-	  }
   }
   /* USER CODE END 3 */
 }

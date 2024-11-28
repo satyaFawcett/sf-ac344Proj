@@ -29,6 +29,7 @@ void button_init(void) {
 	SYSCFG->EXTICR[3] |= SYSCFG_EXTICR4_EXTI13_PC;
 	EXTI->FTSR1 |= EXTI_FTSR1_FT13; //Set line 13 to falling edge trigger
 	EXTI->IMR1 |= EXTI_IMR1_IM13; //Unmask interrupt event for line 13
+	NVIC_SetPriority(TIM4_IRQn, 1);			// Set interrupt priority
 	NVIC_EnableIRQ(EXTI15_10_IRQn); // enable interrupt handler for 15
 
 	//external button init
@@ -47,7 +48,7 @@ void button_init(void) {
 void EXTI15_10_IRQHandler(void) {
 	//blue button pressed
 	if((EXTI->PR1 & EXTI_PR1_PIF13) != 0){
-//		delay(10000); //debounce
+//		for(int i = 0; i < 5000; i++);
 		button_pressed = 1;
 		EXTI->PR1 = EXTI_PR1_PIF13; //clear pending flag
 	}
