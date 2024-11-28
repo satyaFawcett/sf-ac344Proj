@@ -1,8 +1,8 @@
 ../Inc/core_cm4.h:1679:22:__NVIC_EnableIRQ	2
 ../Inc/core_cm4.h:1809:22:__NVIC_SetPriority	2
-../Src/timers.c:16:5:get_counterVal	1
-../Src/timers.c:21:6:reset_counterVal	1
-../Src/timers.c:26:6:TIM4_Init	1
-../Src/timers.c:60:6:TIM3_Init	1
-../Src/timers.c:84:6:arr_set	1
-../Src/timers.c:91:6:TIM3_IRQHandler	2
+../Src/timers.c:17:5:get_counterVal	1
+../Src/timers.c:22:6:reset_counterVal	1
+../Src/timers.c:27:6:TIM4_Init	1
+../Src/timers.c:61:6:TIM3_Init	1
+../Src/timers.c:85:6:arr_set	1
+../Src/timers.c:92:6:TIM3_IRQHandler	2

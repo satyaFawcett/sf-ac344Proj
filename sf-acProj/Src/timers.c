@@ -8,6 +8,7 @@
 #include "stm32l476xx.h"
 #include<stdio.h>
 #include<stdint.h>
+#include "LED.h"
 
 extern volatile int timeout;
 extern volatile int beat;
@@ -90,7 +91,7 @@ void arr_set(int s){
 // Interrupt handler code to set beat = 1 on overflow
 void TIM3_IRQHandler(void){
 	if (TIM3->SR & TIM_SR_UIF){		// Check if update interrupt flag
-		beat = 1;
+		toggle_LED();
 		TIM3->SR &= ~TIM_SR_UIF;	// Clear the interrupt flag
 		// Set ARR to get_counterVal here? or assign in timer init?
 	}

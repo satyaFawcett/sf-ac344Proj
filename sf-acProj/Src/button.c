@@ -49,7 +49,13 @@ void EXTI15_10_IRQHandler(void) {
 	//blue button pressed
 	if((EXTI->PR1 & EXTI_PR1_PIF13) != 0){
 //		for(int i = 0; i < 5000; i++);
-		button_pressed = 1;
+		TIM3->CR1 &= ~TIM_CR1_CEN;
+		TIM3->ARR = TIM4->CNT;
+		TIM3->CR1 |= TIM_CR1_CEN;
+
+		TIM4->CNT = 0;
+		TIM3->CNT = 0;
+
 		EXTI->PR1 = EXTI_PR1_PIF13; //clear pending flag
 	}
 	//button connected to PC10 pressed

@@ -57,34 +57,34 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
 	System_Clock_Init();
-	SysTick_Init(80);
+//	SysTick_Init(80);
 	LED_init();
 	button_init();
-	buzzer_init();
+//	buzzer_init();
 	TIM4_Init();
 	TIM3_Init();
 
 
   /* Infinite loop */
   while (1){
-	  //execute if button pressed
-	  if(button_pressed){
-		  TIM3->CR1 &= ~TIM_CR1_CEN;
-		  TIM3->ARR = TIM4->CNT - offset;
-		  TIM3->CR1 |= TIM_CR1_CEN;
-
-		  TIM3->CNT = 0;
-		  button_pressed = 0;
-	  }
-
-	  //execute if TIM3 overflows
-	  if(beat){
-		  //play note and flash led
-		  toggle_LED();
-		  playnote(bass);
-		  toggle_LED();
-		  beat = 0;
-	  }
+//	  //execute if button pressed
+//	  if(button_pressed){
+//		  TIM3->CR1 &= ~TIM_CR1_CEN;
+//		  TIM3->ARR = TIM4->CNT;
+//		  TIM3->CR1 |= TIM_CR1_CEN;
+//
+//		  TIM3->CNT = 0;
+//		  button_pressed = 0;
+//	  }
+//
+//	  //execute if TIM3 overflows
+//	  if(beat){
+//		  //play note and flash led
+//		  toggle_LED();
+////		  playnote(bass);
+////		  toggle_LED();
+//		  beat = 0;
+//	  }
 
   }
   /* USER CODE END 3 */
