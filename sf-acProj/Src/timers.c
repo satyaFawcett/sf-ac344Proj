@@ -38,23 +38,23 @@ void TIM4_Init(void){
 	TIM4->CCER = 0;						// Disable all output channels
 	TIM4->CCMR1 = 0;					// Reset capture/compare mode registers
 
-	TIM4->DIER |= TIM_DIER_UIE;			// Enable update interrupt
-
-	NVIC_SetPriority(TIM4_IRQn, 2);			// Set interrupt priority
-	NVIC_EnableIRQ(TIM4_IRQn);				// Enable TIM4 interrupt in NVIC
+//	TIM4->DIER |= TIM_DIER_UIE;			// Enable update interrupt
+//
+//	NVIC_SetPriority(TIM4_IRQn, 2);			// Set interrupt priority
+//	NVIC_EnableIRQ(TIM4_IRQn);				// Enable TIM4 interrupt in NVIC
 
 	// Enable the timer
-	TIM4->CR1 &= ~TIM_CR1_CEN;
+	TIM4->CR1 |= TIM_CR1_CEN;
 }
 
-// Interrupt handler code for the counter reaching 3 seconds
-void TIM4_IRQHandler(void){
-	if (TIM4->SR & TIM_SR_UIF){		// Check if update interrupt flag
-		TIM4->CR1 &= ~TIM_CR1_CEN;	// Disable the timer
-		timeout = 1;				// Set flag for timer disabled
-		TIM4->SR &= ~TIM_SR_UIF;	// Clear the interrupt flag
-	}
-}
+//// Interrupt handler code for the counter reaching 3 seconds
+//void TIM4_IRQHandler(void){
+//	if (TIM4->SR & TIM_SR_UIF){		// Check if update interrupt flag
+//		TIM4->CR1 &= ~TIM_CR1_CEN;	// Disable the timer
+//		timeout = 1;				// Set flag for timer disabled
+//		TIM4->SR &= ~TIM_SR_UIF;	// Clear the interrupt flag
+//	}
+//}
 
 // Output timer to trigger buzzer
 void TIM3_Init(void){
