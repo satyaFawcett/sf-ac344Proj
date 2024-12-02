@@ -2,7 +2,7 @@
  * inputTimer.c
  *
  *  Created on: Nov 26, 2024
- *      Author: aidan
+ *      Author: Aidan Catlin
  */
 
 #include "stm32l476xx.h"
@@ -11,20 +11,8 @@
 #include "LED.h"
 #include "usart.h"
 
-extern volatile int timeout;
-extern volatile int beat;
 
-// Function to read the current value of the counter
-int get_counterVal(){
-	return TIM4->CNT;		// Read the current counter value
-}
-
-// Function to reset the counter value to 0
-void reset_counterVal(){
-	TIM4->CNT = 0;		// Reset the counter value to 0
-}
-
-// Simple 1kHz up counting timer (input)
+// Simple 1kHz up counting timer (input) no interupts
 void TIM4_Init(void){
 	RCC->APB1ENR1 |= RCC_APB1ENR1_TIM4EN;		// Enable the TIM4 clock
 
@@ -40,25 +28,11 @@ void TIM4_Init(void){
 	TIM4->CCER = 0;						// Disable all output channels
 	TIM4->CCMR1 = 0;					// Reset capture/compare mode registers
 
-//	TIM4->DIER |= TIM_DIER_UIE;			// Enable update interrupt
-//
-//	NVIC_SetPriority(TIM4_IRQn, 2);			// Set interrupt priority
-//	NVIC_EnableIRQ(TIM4_IRQn);				// Enable TIM4 interrupt in NVIC
-
 	// Enable the timer
 	TIM4->CR1 |= TIM_CR1_CEN;
 }
 
-//// Interrupt handler code for the counter reaching 3 seconds
-//void TIM4_IRQHandler(void){
-//	if (TIM4->SR & TIM_SR_UIF){		// Check if update interrupt flag
-//		TIM4->CR1 &= ~TIM_CR1_CEN;	// Disable the timer
-//		timeout = 1;				// Set flag for timer disabled
-//		TIM4->SR &= ~TIM_SR_UIF;	// Clear the interrupt flag
-//	}
-//}
-
-// Output timer to trigger buzzer
+// Simple 1kHz up counting timer (output) with interupt to trigger the LED and USART
 void TIM3_Init(void){
 	RCC->APB1ENR1 |= RCC_APB1ENR1_TIM3EN;		// Enable the TIM3 clock
 
@@ -83,19 +57,12 @@ void TIM3_Init(void){
 	TIM3->CR1 |= TIM_CR1_CEN;
 }
 
-void arr_set(int s){
-	TIM3->CR1 &= ~TIM_CR1_CEN;
-	TIM3->ARR = s;
-	TIM3->CR1 |= TIM_CR1_CEN;
-}
-
 // Interrupt handler code to set beat = 1 on overflow
 void TIM3_IRQHandler(void){
 	if (TIM3->SR & TIM_SR_UIF){		// Check if update interrupt flag
-		toggle_LED();
-		printBPM();
+		toggle_LED(); //toggle the LED
+		printBPM(); //Print the BPM value using USART2
 		TIM3->SR &= ~TIM_SR_UIF;	// Clear the interrupt flag
-		// Set ARR to get_counterVal here? or assign in timer init?
 	}
 }
 

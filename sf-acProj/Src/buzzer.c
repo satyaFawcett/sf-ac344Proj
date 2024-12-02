@@ -2,7 +2,8 @@
  * buzzer.c
  *
  *  Created on: Nov 6, 2024
- *      Author: fawcets
+ *      Authors: Satya Fawcett, Aidan Catlin
+ *      Modified code from Satya's lab 5, ended up not using, but left in for potential of revisiting
  */
 
 #include "stm32l476xx.h"
@@ -16,7 +17,7 @@ const unsigned int freq[] = {100, 277, 294, 311, 330, 349, 370, 392, 415, 440, 4
 
 void buzzer_init(){
 	/*Description:
-	 *
+	 *Sets up PA10 as output
 	 */
 	enable_GPIO_clock(0); //enable GPIOA clock
 	GPIOA->MODER &= ~GPIO_MODER_MODE10;
@@ -24,16 +25,21 @@ void buzzer_init(){
 }
 
 void playnote(struct note n) {
+	/*Description:
+	 * Uses a systick delay to rapidly toggle PA10 to play notes
+	 */
 	for (int i = 0; i < (n.duration * freq[n.notenum]) / 8; i++) {
 		GPIOA->ODR ^= 1 << BUZZER_PIN; // Toggle buzzer
 		delay(500000 / freq[n.notenum]); // Half period
 		GPIOA->ODR ^= 1 << BUZZER_PIN; // Toggle buzzer
-		delay(500000 / freq[n.notenum]);
+		delay(500000 / freq[n.notenum]);// Half period
 	}
-//	delay(0.5 * 125000); // Short delay between notes
 }
 
 void playsong(const struct song *s) {
+	/*Description:
+	 * Takes an array of notes and plays them in sequence
+	 */
 	for (int i = 0; i < s->numnotes; i++) {
 		playnote(s->thenotes[i]);
 	}

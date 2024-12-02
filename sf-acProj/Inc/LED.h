@@ -2,7 +2,7 @@
  * LED.h
  *
  *  Created on: Nov 6, 2024
- *      Author: fawcets
+ *      Author: Satya Fawcett
  */
 
 #ifndef LED_H_

@@ -2,7 +2,7 @@
  * button.c
  *
  *  Created on: Nov 26, 2024
- *      Author: fawcets
+ *      Authors: Satya Fawcett, Aidan Catlin
  */
 
 #include "stm32l476xx.h"
@@ -11,11 +11,11 @@
 #include "sf344fun.h"
 #include "delay.h"
 
-extern volatile int button_pressed;
+#define debounce 100000
 
 void button_init(void) {
 	/*Description:
-	 *
+	 *Sets up the button on the board to trigger an interrupt, as well as for an external button connected to PC10 if desired
 	 */
 
 	//board button init
@@ -48,11 +48,12 @@ void button_init(void) {
 void EXTI15_10_IRQHandler(void) {
 	//blue button pressed
 	if((EXTI->PR1 & EXTI_PR1_PIF13) != 0){
-//		for(int i = 0; i < 5000; i++);
-		TIM3->CR1 &= ~TIM_CR1_CEN;
-		TIM3->ARR = TIM4->CNT;
-		TIM3->CR1 |= TIM_CR1_CEN;
+		//no debounce for board button
 
+		TIM3->CR1 &= ~TIM_CR1_CEN; //Disable the output timer (TIM3)
+		TIM3->ARR = TIM4->CNT;	   //set the output timer's ARR to the current count of the input timer (TIM4)
+		TIM3->CR1 |= TIM_CR1_CEN;  //Re enable the output timer (TIM3)
+		//set both input and output timers back to 0
 		TIM4->CNT = 0;
 		TIM3->CNT = 0;
 
@@ -60,8 +61,16 @@ void EXTI15_10_IRQHandler(void) {
 	}
 	//button connected to PC10 pressed
 	if((EXTI->PR1 & EXTI_PR1_PIF10) != 0){
-//		delay(10000); //debounce
-		button_pressed = 1;
+		delay(debounce); //debounce for the external
+
+		TIM3->CR1 &= ~TIM_CR1_CEN; //Disable the output timer (TIM3)
+		//set the output timer's ARR to the current count of the input timer (TIM4) - (the #of debounce ticks/the timers prescaler)
+		TIM3->ARR = TIM4->CNT - (debounce/15999);
+		TIM3->CR1 |= TIM_CR1_CEN;  //Re enable the output timer (TIM3)
+		//set both input and output timers back to 0
+		TIM4->CNT = 0;
+		TIM3->CNT = 0;
+
 		EXTI->PR1 = EXTI_PR1_PIF10; //clear pending flag
 	}
 

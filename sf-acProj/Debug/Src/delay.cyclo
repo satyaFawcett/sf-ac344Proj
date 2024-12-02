@@ -1,2 +1,2 @@
-../Src/delay.c:14:6:SysTick_Handler	2
-../Src/delay.c:23:6:delay	2
+../Src/delay.c:16:6:SysTick_Handler	2
+../Src/delay.c:25:6:delay	2

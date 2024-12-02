@@ -2,7 +2,7 @@
  * sys_init.c
  *
  *  Created on: Nov 6, 2024
- *      Author: fawcets
+ *      Authors: Satya Fawcett, Aidan Catlin
  */
 
 #include "stm32l476xx.h"
@@ -11,7 +11,7 @@
 
 void System_Clock_Init(){
 /*	Description:
- *
+ *Sets the system clock to use the HSI
  */
 
 	uint32_t HSITrim = 16;
@@ -32,13 +32,13 @@ void System_Clock_Init(){
 
 	//Setting HSI16 as system clock
 	RCC->CFGR &= ~RCC_CFGR_SW; //Clearing system clock selection bits
-	RCC->CFGR |= (0b01); //Choosing the HSI16 as the system clock
-
+	RCC->CFGR |= RCC_CFGR_SW_HSI; //Choosing the HSI16 as the system clock
 }
 
 void SysTick_Init(int ticks){
 	/*Description:
-	 *
+	 *Sets up SysTick to trigger based on input ticks
+	 * Not used as it was part of buzzer code, left in for revisiting
 	 */
 
 	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk; // Disable SysTick
@@ -46,7 +46,7 @@ void SysTick_Init(int ticks){
 	// Set interrupt priority of SysTick to least urgency (i.e., largest priority value)
 	NVIC_SetPriority (SysTick_IRQn, (1 << __NVIC_PRIO_BITS) - 1);
 	SysTick->VAL = 0; // Reset the SysTick counter value
-	// Select processor clock to internal clock
+	// Select processor clock to system clock
 	SysTick->CTRL |= SysTick_CTRL_CLKSOURCE_Msk;
 	// Enables SysTick interrupt
 	SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;

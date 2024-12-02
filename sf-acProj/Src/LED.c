@@ -2,7 +2,8 @@
  * LED.c
  *
  *  Created on: Nov 6, 2024
- *      Author: fawcets
+ *      Author: Satya Fawcett
+ *      Directly coppied from Satya's lab 5
  */
 
 #include "stm32l476xx.h"
@@ -12,7 +13,7 @@
 
 void LED_init(){
 	/*Description:
-	 *
+	 *Sets up PA5 as output
 	 */
 	enable_GPIO_clock(0); //enable GPIOA clock
 	GPIOA->MODER &= ~GPIO_MODER_MODE5;
@@ -20,7 +21,7 @@ void LED_init(){
 }
 void toggle_LED(){
 	/*Description:
-	 *
+	 *Toggles PA5
 	 */
 	GPIOA->ODR ^= GPIO_ODR_OD5;
 }

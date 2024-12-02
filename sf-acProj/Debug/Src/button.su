@@ -1,4 +1,4 @@
 ../Inc/core_cm4.h:1679:22:__NVIC_EnableIRQ	16	static,ignoring_inline_asm
 ../Inc/core_cm4.h:1809:22:__NVIC_SetPriority	16	static
 ../Src/button.c:16:6:button_init	8	static
-../Src/button.c:48:6:EXTI15_10_IRQHandler	4	static
+../Src/button.c:48:6:EXTI15_10_IRQHandler	8	static

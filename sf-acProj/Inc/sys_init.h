@@ -2,7 +2,7 @@
  * sys_init.h
  *
  *  Created on: Nov 6, 2024
- *      Author: fawcets
+ *      Authors: Satya Fawcett, Aidan Catlin
  */
 
 #ifndef SYS_INIT_H_

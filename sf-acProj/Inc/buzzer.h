@@ -2,7 +2,7 @@
  * buzzer.h
  *
  *  Created on: Nov 6, 2024
- *      Author: fawcets
+ *      Authors: Satya Fawcett, Aidan Catlin
  */
 
 #ifndef BUZZER_H_

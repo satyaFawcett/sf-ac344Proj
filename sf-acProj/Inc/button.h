@@ -2,7 +2,7 @@
  * button.h
  *
  *  Created on: Nov 26, 2024
- *      Author: fawcets
+ *      Authors: Satya Fawcett, Aidan Catlin
  */
 
 #ifndef BUTTON_H_

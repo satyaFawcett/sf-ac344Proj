@@ -2,7 +2,9 @@
  * sf344fun.c
  *
  *  Created on: Oct 18, 2024
- *      Author: fawcets
+ *      Author: Satya Fawcett
+ *      Just contains a function to turn on GPIO clocks that I wrote at the beginning of the quarter,
+ *      and have use in almost every lab since.
  */
 
 #include "stm32l476xx.h"
@@ -38,7 +40,8 @@ void enable_GPIO_clock(int port){
 			RCC -> AHB2ENR |= RCC_AHB2ENR_GPIOHEN;
 			break;
 		default:
-			printf("enable_GPIO_clock error invalid input, please input lower case a-h \n");
+			//tell the user to input an integer from 0-7, will throw an error instead if printf is not enabled.
+			printf("enable_GPIO_clock error invalid input, please input integer from 0-7 \n");
 			break;
 	}
 }

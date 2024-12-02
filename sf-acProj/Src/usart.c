@@ -2,15 +2,19 @@
  * usart.c
  *
  *  Created on: Dec 1, 2024
- *      Author: aidan
+ *      Authors: Satya Fawcett, Aidan Catlin
+ *      Modified from Aidan's lab 7
  */
 #include "stm32l476xx.h"
 #include<stdio.h>
 #include<stdint.h>
 
+//init usart output buffer
 #define BufferSize 32
 uint8_t buffer[BufferSize];
+int n;		// initialize n, this will store the length of the formatted string
 
+//define variable used in BPM calculation
 int ARR;
 float period;
 float BPM;
@@ -99,8 +103,8 @@ void UART2_Init(void){
 	UART2_GPIO_Init();
 	USART_Init(USART2);
 
-	while(!(USART2->ISR & USART_ISR_TEACK));
-	while(!(USART2->ISR & USART_ISR_REACK));
+	while(!(USART2->ISR & USART_ISR_TEACK)); //wait till transmitter ready
+	while(!(USART2->ISR & USART_ISR_REACK)); //wait till reciever ready
 }
 
 // USART_Write function writes data from a buffer to a UART
@@ -114,15 +118,13 @@ void USART_Write(USART_TypeDef * USARTx, uint8_t *buffer, uint32_t nBytes){
 	}
 }
 
+// Loads the buffer with the BPM display message, and sends in over USART
 void printBPM(void){
-	ARR = TIM3->ARR;
-	period = (ARR+1)/1000.0;
-	BPM = 60/period;
+	ARR = TIM3->ARR; //period in # of tick
+	period = (ARR+1)/1000.0; //convert # of ticks to seconds
+	BPM = 60/period; //convert period to BPM
 
-	int n;		// initialize n, this will store the length of the formatted string
-
-//	n = sprintf((char *)buffer, "ARR = %d\t", ARR);
-	n = sprintf((char *)buffer, "BPM = %f\r\n", BPM);
+	n = sprintf((char *)buffer, "BPM = %f\r\n", BPM); //Load the buffer with the BPM display message
 
 	// Send the string over UART
 	USART_Write(USART2,buffer,n);
