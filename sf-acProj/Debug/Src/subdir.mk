@@ -14,7 +14,8 @@ C_SRCS += \
 ../Src/sys_init.c \
 ../Src/syscalls.c \
 ../Src/sysmem.c \
-../Src/timers.c 
+../Src/timers.c \
+../Src/usart.c 
 
 OBJS += \
 ./Src/LED.o \
@@ -26,7 +27,8 @@ OBJS += \
 ./Src/sys_init.o \
 ./Src/syscalls.o \
 ./Src/sysmem.o \
-./Src/timers.o 
+./Src/timers.o \
+./Src/usart.o 
 
 C_DEPS += \
 ./Src/LED.d \
@@ -38,7 +40,8 @@ C_DEPS += \
 ./Src/sys_init.d \
 ./Src/syscalls.d \
 ./Src/sysmem.d \
-./Src/timers.d 
+./Src/timers.d \
+./Src/usart.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -48,7 +51,7 @@ Src/%.o Src/%.su Src/%.cyclo: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/LED.cyclo ./Src/LED.d ./Src/LED.o ./Src/LED.su ./Src/button.cyclo ./Src/button.d ./Src/button.o ./Src/button.su ./Src/buzzer.cyclo ./Src/buzzer.d ./Src/buzzer.o ./Src/buzzer.su ./Src/delay.cyclo ./Src/delay.d ./Src/delay.o ./Src/delay.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/sf344fun.cyclo ./Src/sf344fun.d ./Src/sf344fun.o ./Src/sf344fun.su ./Src/sys_init.cyclo ./Src/sys_init.d ./Src/sys_init.o ./Src/sys_init.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/timers.cyclo ./Src/timers.d ./Src/timers.o ./Src/timers.su
+	-$(RM) ./Src/LED.cyclo ./Src/LED.d ./Src/LED.o ./Src/LED.su ./Src/button.cyclo ./Src/button.d ./Src/button.o ./Src/button.su ./Src/buzzer.cyclo ./Src/buzzer.d ./Src/buzzer.o ./Src/buzzer.su ./Src/delay.cyclo ./Src/delay.d ./Src/delay.o ./Src/delay.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/sf344fun.cyclo ./Src/sf344fun.d ./Src/sf344fun.o ./Src/sf344fun.su ./Src/sys_init.cyclo ./Src/sys_init.d ./Src/sys_init.o ./Src/sys_init.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/timers.cyclo ./Src/timers.d ./Src/timers.o ./Src/timers.su ./Src/usart.cyclo ./Src/usart.d ./Src/usart.o ./Src/usart.su
 
 .PHONY: clean-Src
 

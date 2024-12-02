@@ -9,6 +9,7 @@
 #include<stdio.h>
 #include<stdint.h>
 #include "LED.h"
+#include "usart.h"
 
 extern volatile int timeout;
 extern volatile int beat;
@@ -31,8 +32,8 @@ void TIM4_Init(void){
 	TIM4->CR1 &= ~TIM_CR1_DIR;					// Up-counting mode (default)
 
 	// Set the PSC and ARR fields to achieve a 1kHz output
-	TIM4->PSC = 79999;		// Pre-scaler to divide 16 MHz clock to 1 kHz
-	TIM4->ARR = 18000;		// Auto-reload for 3-second interrupt
+	TIM4->PSC = 15999;		// Pre-scaler to divide 16 MHz clock to 1 kHz
+	TIM4->ARR = 2999;		// Auto-reload for 3-second interrupt
 
 	TIM4->CR2 &= ~TIM_CR2_MMS;			// No master mode output
 
@@ -65,7 +66,7 @@ void TIM3_Init(void){
 	TIM3->CR1 &= ~TIM_CR1_DIR;					// Up-counting mode (default)
 
 	// Set the PSC and ARR fields to achieve a 1kHz output
-	TIM3->PSC = 79999;		// Pre-scaler to divide 16 MHz clock to 1 kHz
+	TIM3->PSC = 15999;		// Pre-scaler to divide 16 MHz clock to 1 kHz
 	TIM3->ARR = 2999;		// Auto-reload for 3-second interrupt
 
 	TIM3->CR2 &= ~TIM_CR2_MMS;			// No master mode output
@@ -92,6 +93,7 @@ void arr_set(int s){
 void TIM3_IRQHandler(void){
 	if (TIM3->SR & TIM_SR_UIF){		// Check if update interrupt flag
 		toggle_LED();
+		printBPM();
 		TIM3->SR &= ~TIM_SR_UIF;	// Clear the interrupt flag
 		// Set ARR to get_counterVal here? or assign in timer init?
 	}

@@ -11,10 +11,11 @@
 #include "sys_init.h"
 #include "delay.h"
 #include "LED.h"
-#include "buzzer.h"
+//#include "buzzer.h"
 #include "music.h"
 #include "button.h"
 #include "timers.h"
+#include "usart.h"
 
 /* USER CODE END Includes */
 
@@ -57,16 +58,19 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
 	System_Clock_Init();
-//	SysTick_Init(80);
+//	SysTick_Init(16);
 	LED_init();
 	button_init();
 //	buzzer_init();
 	TIM4_Init();
 	TIM3_Init();
-
+	UART2_Init();
 
   /* Infinite loop */
   while (1){
+
+
+
 //	  //execute if button pressed
 //	  if(button_pressed){
 //		  TIM3->CR1 &= ~TIM_CR1_CEN;

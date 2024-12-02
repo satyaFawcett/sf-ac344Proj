@@ -1,0 +1,5 @@
+../Src/usart.c:19:6:UART2_GPIO_Init	1
+../Src/usart.c:53:6:USART_Init	3
+../Src/usart.c:90:6:UART2_Init	3
+../Src/usart.c:107:6:USART_Write	4
+../Src/usart.c:117:6:printBPM	1

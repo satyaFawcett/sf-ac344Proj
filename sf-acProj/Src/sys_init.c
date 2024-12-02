@@ -16,41 +16,24 @@ void System_Clock_Init(){
 
 	uint32_t HSITrim = 16;
 
-	//Set flash wait states
-	FLASH->ACR &= ~FLASH_ACR_LATENCY;
-	FLASH->ACR |= FLASH_ACR_LATENCY_4WS;
-	//Configure HSI
-	RCC->CR |= RCC_CR_HSION;
-	while((RCC->CR & RCC_CR_HSIRDY) == 0); //wait for HSIRDY to be cleared
-	//Calibrate HSI16
-	RCC->ICSCR &= ~RCC_ICSCR_HSITRIM;
-	RCC->ICSCR |= HSITrim << RCC_ICSCR_HSITRIM_Pos;
-	//Disable PLL
-	RCC->CR &= ~RCC_CR_PLLON;
-	while((RCC->CR & RCC_CR_PLLRDY) == RCC_CR_PLLRDY); //wait till PLLRDY is cleared
-	//Configure PLL to 80 MHz
-	//f(sys) = f(VCO)/PLLR
-	//80MHz = 160/2; f(VCO) = 160 PLLR = 2
-	//f(VCO) = f(PLL input) * (PLLN/PLLM)
-	//160MHz = 16MHz * (PLLN/PLLM)
-	//PLLN/PLLM = 10 = 20/2; PLLN = 20 PLLM = 2
-	RCC->PLLCFGR &= ~RCC_PLLCFGR_PLLN;
-	RCC->PLLCFGR |= 20U << RCC_PLLCFGR_PLLN_Pos; //plln to 20
-	RCC->PLLCFGR &= ~RCC_PLLCFGR_PLLM;
-	RCC->PLLCFGR |= 1U << RCC_PLLCFGR_PLLM_Pos; //pllm to 2
-	RCC->PLLCFGR &= ~RCC_PLLCFGR_PLLR; //pllr to 2
-	//set hsi as source for PLL
-	RCC->PLLCFGR &= ~RCC_PLLCFGR_PLLSRC;
-	RCC->PLLCFGR |= RCC_PLLCFGR_PLLSRC_HSI;
-	//Enable PLLR output
-	RCC->PLLCFGR |= RCC_PLLCFGR_PLLREN;
-	//Enable the PLL
-	RCC->CR |= RCC_CR_PLLON;
-	while((RCC->CR & RCC_CR_PLLRDY) == 0); //wait till PLLRDY is cleared
-	//select PLL as system clock
-	RCC->CFGR &= ~RCC_CFGR_SW;
-	RCC->CFGR |= RCC_CFGR_SW_PLL;
-	while((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL); // wait till system clock is selected
+	//Setting Flash Wait States
+	FLASH->ACR &= ~FLASH_ACR_LATENCY; //Clearing latency bits
+	FLASH->ACR |= 0b100; //Setting four wait states
+
+	//Configuring HSI
+	RCC->CR |= (0b1 << 8); //Setting the HSI oscillator on
+	while((RCC->CR & (0b1 << 10)) == 0); //waiting for the oscillator to be ready before moving on
+
+	//Calibrating HSI16 in internal clock sources calibration register
+	HSITrim = 16; //Trimming value which is added to HSICAL[7:0]
+	RCC->ICSCR &= ~RCC_ICSCR_HSITRIM; //Clearing HSITRIM bits
+	RCC->ICSCR |= HSITrim << 24; //Adjusts the HSI calibration value
+	//This factory calibration value plus the HSITrim value will be loaded in
+
+	//Setting HSI16 as system clock
+	RCC->CFGR &= ~RCC_CFGR_SW; //Clearing system clock selection bits
+	RCC->CFGR |= (0b01); //Choosing the HSI16 as the system clock
+
 }
 
 void SysTick_Init(int ticks){

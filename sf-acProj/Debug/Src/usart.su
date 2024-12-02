@@ -1,0 +1,5 @@
+../Src/usart.c:19:6:UART2_GPIO_Init	4	static
+../Src/usart.c:53:6:USART_Init	16	static
+../Src/usart.c:90:6:UART2_Init	8	static
+../Src/usart.c:107:6:USART_Write	32	static
+../Src/usart.c:117:6:printBPM	16	static

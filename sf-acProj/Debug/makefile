@@ -59,8 +59,8 @@ all: main-build
 main-build: sf-acProj.elf secondary-outputs
 
 # Tool invocations
-sf-acProj.elf sf-acProj.map: $(OBJS) $(USER_OBJS) D:\EECE344\sf-acRepo\sf-acProj\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "sf-acProj.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\EECE344\sf-acRepo\sf-acProj\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="sf-acProj.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+sf-acProj.elf sf-acProj.map: $(OBJS) $(USER_OBJS) C:\Users\aidan\Desktop\EECE344\sf-acRepo\sf-ac344Proj\sf-acProj\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "sf-acProj.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\aidan\Desktop\EECE344\sf-acRepo\sf-ac344Proj\sf-acProj\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="sf-acProj.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
